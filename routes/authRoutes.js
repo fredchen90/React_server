@@ -17,6 +17,7 @@ module.exports = app => {
   );
 
   app.get('/api/logout', (req, res) => {
+    // passport logout will remove the user property
     req.logout();
     res.redirect('/');
   });
