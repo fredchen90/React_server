@@ -5,6 +5,7 @@ const cookieSession = require('cookie-session');
 const bodyParse = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
+require('./models/surveys');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -27,16 +28,16 @@ require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
-	// Express will serve up production assets
-	// like our  main.js file, main.css file!
-	app.use(express.static('client/build'));
+  // Express will serve up production assets
+  // like our  main.js file, main.css file!
+  app.use(express.static('client/build'));
 
-	// Express will serve up the index.html file
-	// if it doesn't recognize the route
-	const path = require('path');
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-	});
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 }
 
 const PORT = process.env.PORT || 5000;
