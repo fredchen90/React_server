@@ -9,11 +9,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
 const Survey = mongoose.model('surveys');
 
-const nodeEnv = process.env.NODE_ENV;
-
 module.exports = app => {
-  const votingPath = nodeEnv === 'production' ? 'api/surveys/:surveyId/:choice' : '/api/surveys/:surveyId/:choice';
-
   app.get('/api/surveys', requireLogin, async (req, res) => {
     const surveys = await Survey.find({ _user: req.user.id }).select({
       recipients: false
@@ -22,7 +18,7 @@ module.exports = app => {
     res.send(surveys);
   });
 
-  app.get(votingPath, (req, res) => {
+  app.get('/api/surveys/:surveyId/:choice', (req, res) => {
     res.send('Thanks for voting');
   });
 
